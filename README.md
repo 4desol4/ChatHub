@@ -345,18 +345,13 @@ ChatHub/
 
 **Never expose credentials:**
 
-✅ **Correct:**
 
 ```bash
 # In .env file
 DB_PASSWORD=your_secure_password
 ```
 
-❌ **Wrong:**
 
-```java
-
-```
 
 ### Strong Passwords
 
