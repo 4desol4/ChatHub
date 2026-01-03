@@ -20,11 +20,17 @@ A modern desktop chat application built with **Java, JavaFX, and MySQL**. Real-t
 
 ## 📸 Screenshots
 
-```markdown
-| Login Screen                    | Chat Interface                | Registration Screen                       |
-| ------------------------------- | ----------------------------- | ----------------------------------------- |
-| ![Login](screenshots/login.png) | ![Chat](screenshots/chat.png) | ![Registration](screenshots/register.png) |
-```
+ Login Screen    
+ -----------------------------
+ ![Login](screenshots/login.png)
+ 
+ Chat Interface     
+ -----------------------------
+ ![Chat](screenshots/chat.png)
+ 
+ Registration Screen                       
+ ----------------------------------------- 
+ ![Registration](screenshots/register.png) 
 
 ---
 
