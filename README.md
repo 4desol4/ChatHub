@@ -467,9 +467,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📞 Support
 
-- 📧 Email: your.email@example.com
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/ChatHub/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/ChatHub/discussions)
+- 📧 Email: adeleyeshola0@gmail.com 
+- 🐛 Issues: [GitHub Issues](https://github.com/4desol4/ChatHub/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/4desol4/ChatHub/discussions)
 
 ---
 
