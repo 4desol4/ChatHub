@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.paint.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.chatapp.client.controller.LoginController"
+           styleClass="login-container"
+           stylesheets="@../css/style.css">
+
+    <!-- Responsive Main Container -->
+    <VBox alignment="TOP_CENTER" spacing="0" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+
+        <!-- Scrollable Content -->
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+            <VBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
+
+                <!-- Login Box -->
+                <VBox styleClass="login-box" spacing="25" alignment="CENTER" maxWidth="450" minWidth="300"
+                      style="-fx-padding: 40;">
+
+                    <!-- App Header (No Avatar Circle) -->
+                    <VBox alignment="CENTER" spacing="12">
+                        <Text text="💬 ChatHub" styleClass="app-title"
+                              style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
+                        <Text text="Connect with your team instantly" styleClass="app-subtitle"
+                              style="-fx-fill: rgba(255,255,255,0.7);"/>
+                    </VBox>
+
+                    <Separator prefWidth="200" style="-fx-padding: 10 0;"/>
+
+                    <!-- Login Form -->
+                    <VBox spacing="15" fx:id="loginForm">
+                        <Label text="Username" style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                        <TextField fx:id="usernameField"
+                                   promptText="Enter your username"
+                                   styleClass="modern-text-field"
+                                   maxWidth="Infinity"
+                                   style="-fx-padding: 10 15; -fx-font-size: 14px;"/>
+
+                        <Label text="Password" style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                        <PasswordField fx:id="passwordField"
+                                       promptText="Enter your password"
+                                       styleClass="modern-password-field"
+                                       onAction="#handleLogin"
+                                       maxWidth="Infinity"
+                                       style="-fx-padding: 10 15; -fx-font-size: 14px;"/>
+
+                        <Label fx:id="errorLabel" styleClass="error-label" visible="false" managed="false"
+                               wrapText="true" style="-fx-text-alignment: center;"/>
+
+                        <Button text="Login"
+                                styleClass="primary-button"
+                                onAction="#handleLogin"
+                                maxWidth="Infinity"
+                                minHeight="48"
+                                style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-padding: 12 20; -fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-text-fill: white; -fx-cursor: hand;">
+                            <VBox.margin>
+                                <Insets top="10"/>
+                            </VBox.margin>
+                        </Button>
+                    </VBox>
+
+                    <!-- Registration Form (Hidden Initially) -->
+                    <VBox spacing="15" fx:id="registrationForm" visible="false" managed="false">
+                        <Label text="Username" style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                        <TextField fx:id="regUsernameField"
+                                   promptText="Choose a username"
+                                   styleClass="modern-text-field"
+                                   maxWidth="Infinity"
+                                   style="-fx-padding: 10 15; -fx-font-size: 14px;"/>
+
+                        <Label text="Email" style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                        <TextField fx:id="regEmailField"
+                                   promptText="your.email@example.com"
+                                   styleClass="modern-text-field"
+                                   maxWidth="Infinity"
+                                   style="-fx-padding: 10 15; -fx-font-size: 14px;"/>
+
+                        <Label text="Password" style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                        <PasswordField fx:id="regPasswordField"
+                                       promptText="Create a password"
+                                       styleClass="modern-password-field"
+                                       maxWidth="Infinity"
+                                       style="-fx-padding: 10 15; -fx-font-size: 14px;"/>
+
+                        <Label text="Confirm Password" style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                        <PasswordField fx:id="regConfirmPasswordField"
+                                       promptText="Confirm your password"
+                                       styleClass="modern-password-field"
+                                       onAction="#handleRegister"
+                                       maxWidth="Infinity"
+                                       style="-fx-padding: 10 15; -fx-font-size: 14px;"/>
+
+                        <Label fx:id="regErrorLabel" styleClass="error-label" visible="false" managed="false"
+                               wrapText="true" style="-fx-text-alignment: center;"/>
+
+                        <Button text="Create Account"
+                                styleClass="primary-button"
+                                onAction="#handleRegister"
+                                maxWidth="Infinity"
+                                minHeight="48"
+                                style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-padding: 12 20; -fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-text-fill: white; -fx-cursor: hand;">
+                            <VBox.margin>
+                                <Insets top="10"/>
+                            </VBox.margin>
+                        </Button>
+                    </VBox>
+
+                    <Separator prefWidth="200" style="-fx-padding: 10 0;"/>
+
+                    <!-- Toggle Between Login/Register -->
+                    <HBox alignment="CENTER" spacing="8">
+                        <Label fx:id="toggleLabel" text="Don't have an account?"
+                               style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 13px;"/>
+                        <Button fx:id="toggleButton" text="Sign Up"
+                                styleClass="secondary-button"
+                                onAction="#toggleForm"
+                                style="-fx-padding: 5 15; -fx-font-size: 13px; -fx-background-color: transparent; -fx-text-fill: #667eea; -fx-border-color: #667eea; -fx-border-width: 1; -fx-cursor: hand;"/>
+                    </HBox>
+
+                </VBox>
+
+                <!-- Spacing -->
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <!-- Footer -->
+                <HBox alignment="CENTER" spacing="20">
+                    <VBox.margin>
+                        <Insets top="20"/>
+                    </VBox.margin>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </VBox>
+
+</StackPane>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.chatapp.client.controller.ChatController"
+            styleClass="chat-container"
+            stylesheets="@../css/style.css">
+
+    <!-- LEFT SIDEBAR -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="300" minWidth="200" maxWidth="400" spacing="0"
+              BorderPane.alignment="CENTER_LEFT">
+
+            <!-- User Profile Header -->
+            <VBox styleClass="user-header" spacing="12">
+                <HBox alignment="CENTER_LEFT" spacing="15">
+                    <!-- User Avatar -->
+                    <StackPane fx:id="userAvatarPane" styleClass="avatar-large">
+                        <Label fx:id="userAvatarLabel" styleClass="avatar-text-large"/>
+                    </StackPane>
+
+                    <!-- User Info -->
+                    <VBox spacing="2" HBox.hgrow="ALWAYS">
+                        <Label fx:id="currentUserLabel" styleClass="username-label" text="Username"
+                               wrapText="true"/>
+                        <HBox spacing="6" alignment="CENTER_LEFT">
+                            <Circle radius="4" styleClass="status-indicator"/>
+                            <Label styleClass="status-label" text="Online"/>
+                        </HBox>
+                    </VBox>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <!-- Settings Button -->
+                    <Button text="⚙" styleClass="attach-button"
+                            style="-fx-font-size: 16px;"
+                            onAction="#handleSettings">
+                        <tooltip>
+                            <Tooltip text="Settings"/>
+                        </tooltip>
+                    </Button>
+                </HBox>
+            </VBox>
+
+            <!-- Search Box -->
+            <VBox style="-fx-padding: 12; -fx-background-color: rgba(0,0,0,0.1);">
+                <TextField fx:id="searchField"
+                           promptText="🔍 Search..."
+                           styleClass="modern-text-field"
+                           style="-fx-background-radius: 20; -fx-border-radius: 20;"/>
+            </VBox>
+
+            <!-- Online Users Label -->
+            <HBox style="-fx-padding: 12 15 8 15;" alignment="CENTER_LEFT" spacing="8">
+                <Label text="Online Users"
+                       style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                <Label fx:id="onlineCountLabel" text="(0)"
+                       style="-fx-text-fill: -fx-primary-solid; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <!-- Users List -->
+            <ListView fx:id="usersList" styleClass="user-list" VBox.vgrow="ALWAYS">
+                <VBox.margin>
+                    <Insets left="8" right="8" bottom="8"/>
+                </VBox.margin>
+            </ListView>
+
+            <!-- Logout Button -->
+            <HBox style="-fx-padding: 12; -fx-border-color: rgba(255,255,255,0.08); -fx-border-width: 1 0 0 0;"
+                  alignment="CENTER">
+                <Button text="🚪 Logout"
+                        styleClass="secondary-button"
+                        onAction="#handleLogout"
+                        maxWidth="Infinity"
+                        style="-fx-min-width: 120;"/>
+            </HBox>
+        </VBox>
+    </left>
+
+    <!-- MAIN CHAT AREA -->
+    <center>
+        <VBox spacing="0">
+
+            <!-- Chat Header -->
+            <HBox styleClass="chat-header" alignment="CENTER_LEFT" spacing="15">
+                <StackPane fx:id="chatHeaderAvatar">
+                    <Circle radius="25"
+                            fill="linear-gradient(to bottom right, #667eea, #764ba2)"
+                            styleClass="chat-icon"/>
+                    <Label text="💬" style="-fx-font-size: 24px;"/>
+                </StackPane>
+
+                <VBox spacing="3">
+                    <Label fx:id="chatHeaderTitle" styleClass="chat-title" text="Select a user to chat"/>
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <Circle fx:id="chatHeaderStatusIndicator" radius="4" fill="#00D9A5"
+                                styleClass="status-indicator"/>
+                        <Label fx:id="chatHeaderStatus" styleClass="online-count" text=""/>
+                    </HBox>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Typing Indicator -->
+                <HBox fx:id="typingIndicatorBox" spacing="5" alignment="CENTER"
+                      visible="false" managed="false">
+                    <Circle radius="3" styleClass="typing-dot" opacity="0.8">
+                        <effect>
+                            <javafx.scene.effect.Glow level="0.5"/>
+                        </effect>
+                    </Circle>
+                    <Circle radius="3" styleClass="typing-dot" opacity="0.6"/>
+                    <Circle radius="3" styleClass="typing-dot" opacity="0.4"/>
+                    <Label styleClass="typing-indicator" text="Someone is typing..."/>
+                </HBox>
+            </HBox>
+
+            <!-- Messages Area -->
+            <ScrollPane fx:id="messagesScrollPane"
+                        styleClass="scroll-pane"
+                        fitToWidth="true"
+                        vbarPolicy="AS_NEEDED"
+                        hbarPolicy="NEVER"
+                        VBox.vgrow="ALWAYS">
+                <VBox fx:id="messagesContainer"
+                      styleClass="message-area"
+                      spacing="15">
+                    <padding>
+                        <Insets top="25" right="25" bottom="25" left="25"/>
+                    </padding>
+                </VBox>
+
+            </ScrollPane>
+
+            <!-- Input Area -->
+            <HBox styleClass="input-area" spacing="12" alignment="CENTER">
+
+                <!-- Emoji Button -->
+                <Button text="😊" styleClass="emoji-button" onMouseClicked="#handleEmojiPicker">
+                    <tooltip>
+                        <Tooltip text="Emoji"/>
+                    </tooltip>
+                </Button>
+
+                <!-- Attach File Button -->
+                <Button text="📎" styleClass="attach-button" onAction="#handleAttachFile">
+                    <tooltip>
+                        <Tooltip text="Attach File"/>
+                    </tooltip>
+                </Button>
+                <!-- Message Input -->
+                <TextArea fx:id="messageInput"
+                          styleClass="message-input"
+                          promptText="Type your message..."
+                          wrapText="true"
+                          prefRowCount="1"
+                          HBox.hgrow="ALWAYS"
+                          onKeyPressed="#handleKeyPressed"/>
+
+                <!-- Send Button -->
+                <Button text="Send ✈"
+                        styleClass="send-button"
+                        onAction="#handleSendMessage"
+                        defaultButton="true"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.chatapp.client.controller.RegistrationController"
+           styleClass="login-container"
+           stylesheets="@../css/style.css">
+
+    <!-- Responsive Main Container -->
+    <VBox alignment="TOP_CENTER" spacing="0" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+
+        <!-- Scrollable Content -->
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+            <VBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
+
+                <!-- Registration Box -->
+                <VBox styleClass="login-box" spacing="25" alignment="TOP_CENTER"
+                      maxWidth="450" minWidth="300" style="-fx-padding: 40;">
+
+                    <!-- Header (No Icon) -->
+                    <VBox alignment="CENTER" spacing="12">
+                        <Text text="Create Account" styleClass="app-title"
+                              style="-fx-font-size: 32px; -fx-font-weight: bold;"/>
+                        <Text text="Join ChatHub and connect with your team"
+                              styleClass="app-subtitle"
+                              wrappingWidth="350"
+                              style="-fx-fill: rgba(255,255,255,0.7);"/>
+                    </VBox>
+
+                    <Separator prefWidth="250" style="-fx-padding: 10 0;"/>
+
+                    <!-- Registration Form -->
+                    <VBox spacing="16" maxWidth="400" minWidth="280" HBox.hgrow="ALWAYS">
+
+                        <!-- Username Field -->
+                        <VBox spacing="6">
+                            <Label text="👤 Username"
+                                   style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                            <TextField fx:id="usernameField"
+                                       promptText="Choose a unique username"
+                                       styleClass="modern-text-field"
+                                       onKeyPressed="#handleKeyPress"
+                                       maxWidth="Infinity"
+                                       style="-fx-padding: 10 15; -fx-font-size: 14px;"/>
+                        </VBox>
+
+                        <!-- Email Field -->
+                        <VBox spacing="6">
+                            <Label text="📧 Email Address"
+                                   style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                            <TextField fx:id="emailField"
+                                       promptText="your.email@example.com"
+                                       styleClass="modern-text-field"
+                                       onKeyPressed="#handleKeyPress"
+                                       maxWidth="Infinity"
+                                       style="-fx-padding: 10 15; -fx-font-size: 14px;"/>
+                        </VBox>
+
+                        <!-- Password Field -->
+                        <VBox spacing="6">
+                            <Label text="🔒 Password"
+                                   style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                            <PasswordField fx:id="passwordField"
+                                           promptText="Create a strong password"
+                                           styleClass="modern-password-field"
+                                           onKeyPressed="#handleKeyPress"
+                                           maxWidth="Infinity"
+                                           style="-fx-padding: 10 15; -fx-font-size: 14px;"/>
+                            <Label text="At least 6 characters"
+                                   style="-fx-text-fill: rgba(255,255,255,0.4); -fx-font-size: 10px;"/>
+                        </VBox>
+
+                        <!-- Confirm Password Field -->
+                        <VBox spacing="6">
+                            <Label text="✓ Confirm Password"
+                                   style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                            <PasswordField fx:id="confirmPasswordField"
+                                           promptText="Re-enter your password"
+                                           styleClass="modern-password-field"
+                                           onKeyPressed="#handleKeyPress"
+                                           maxWidth="Infinity"
+                                           style="-fx-padding: 10 15; -fx-font-size: 14px;"/>
+                        </VBox>
+
+                        <!-- Error/Success Label -->
+                        <Label fx:id="messageLabel"
+                               visible="false"
+                               managed="false"
+                               wrapText="true"
+                               style="-fx-font-size: 12px; -fx-font-weight: 500; -fx-text-alignment: center; -fx-padding: 10; -fx-text-fill: #00D9A5;"/>
+
+                        <!-- Register Button with Better Color -->
+                        <Button text="Create Account"
+                                styleClass="primary-button"
+                                onAction="#handleRegister"
+                                maxWidth="Infinity"
+                                defaultButton="true"
+                                minHeight="48"
+                                style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-padding: 12 20; -fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-text-fill: white; -fx-cursor: hand;">
+                            <VBox.margin>
+                                <Insets top="8"/>
+                            </VBox.margin>
+                        </Button>
+
+                        <!-- Terms and Conditions -->
+                        <Label text="By creating an account, you agree to our Terms of Service"
+                               wrapText="true"
+                               textAlignment="CENTER"
+                               style="-fx-text-fill: rgba(255,255,255,0.4); -fx-font-size: 10px;"/>
+                    </VBox>
+
+                    <Separator prefWidth="250" style="-fx-padding: 10 0;"/>
+
+                    <!-- Back to Login -->
+                    <HBox alignment="CENTER" spacing="8">
+                        <Label text="Already have an account?"
+                               style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px;"/>
+                        <Button text="Sign In"
+                                styleClass="secondary-button"
+                                onAction="#handleBackToLogin"
+                                style="-fx-padding: 5 15; -fx-font-size: 12px; -fx-background-color: transparent; -fx-text-fill: #667eea; -fx-border-color: #667eea; -fx-border-width: 1; -fx-cursor: hand;"/>
+                    </HBox>
+
+                </VBox>
+
+                <!-- Spacing -->
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <!-- Footer -->
+                <HBox alignment="CENTER" spacing="15">
+                    <Label text="🔒 Secure"
+                           style="-fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 10px;"/>
+                    <Label text="•"
+                           style="-fx-text-fill: rgba(255,255,255,0.3); -fx-font-size: 10px;"/>
+                    <Label text="💬 Real-time"
+                           style="-fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 10px;"/>
+                    <Label text="•"
+                           style="-fx-text-fill: rgba(255,255,255,0.3); -fx-font-size: 10px;"/>
+                    <Label text="🚀 Fast"
+                           style="-fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 10px;"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </VBox>
+
+</StackPane>
+
+        <!-- Registration Box -->
+        <VBox styleClass="login-box" spacing="30" alignment="TOP_CENTER"
+              maxWidth="500" minWidth="320">
+
+            <!-- Header -->
+            <VBox alignment="CENTER" spacing="8">
+                <Text text="Create Account" styleClass="app-title"
+                      style="-fx-font-size: 32px;"/>
+                <Text text="Join ChatHub and connect with your team"
+                      styleClass="app-subtitle"
+                      wrappingWidth="350"/>
+            </VBox>
+
+            <Separator prefWidth="250"/>
+
+            <!-- Registration Form -->
+            <VBox spacing="16" maxWidth="400" minWidth="280" HBox.hgrow="ALWAYS">
+
+                <!-- Username Field -->
+                <VBox spacing="6">
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <Label text="👤" style="-fx-font-size: 14px;"/>
+                        <Label text="Username"
+                               style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                    </HBox>
+                    <TextField fx:id="usernameField"
+                               promptText="Choose a unique username"
+                               styleClass="modern-text-field"
+                               onKeyPressed="#handleKeyPress"
+                               maxWidth="Infinity"/>
+                </VBox>
+
+                <!-- Email Field -->
+                <VBox spacing="6">
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <Label text="📧" style="-fx-font-size: 14px;"/>
+                        <Label text="Email Address"
+                               style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                    </HBox>
+                    <TextField fx:id="emailField"
+                               promptText="your.email@example.com"
+                               styleClass="modern-text-field"
+                               onKeyPressed="#handleKeyPress"
+                               maxWidth="Infinity"/>
+                </VBox>
+
+                <!-- Password Field -->
+                <VBox spacing="6">
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <Label text="🔒" style="-fx-font-size: 14px;"/>
+                        <Label text="Password"
+                               style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                    </HBox>
+                    <PasswordField fx:id="passwordField"
+                                   promptText="Create a strong password"
+                                   styleClass="modern-password-field"
+                                   onKeyPressed="#handleKeyPress"
+                                   maxWidth="Infinity"/>
+                    <Label text="At least 6 characters"
+                           style="-fx-text-fill: rgba(255,255,255,0.4); -fx-font-size: 10px;"/>
+                </VBox>
+
+                <!-- Confirm Password Field -->
+                <VBox spacing="6">
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <Label text="✓" style="-fx-font-size: 14px; -fx-text-fill: #00D9A5;"/>
+                        <Label text="Confirm Password"
+                               style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                    </HBox>
+                    <PasswordField fx:id="confirmPasswordField"
+                                   promptText="Re-enter your password"
+                                   styleClass="modern-password-field"
+                                   onKeyPressed="#handleKeyPress"
+                                   maxWidth="Infinity"/>
+                </VBox>
+
+                <!-- Error/Success Label -->
+                <Label fx:id="messageLabel"
+                       visible="false"
+                       managed="false"
+                       style="-fx-font-size: 12px; -fx-font-weight: 500; -fx-text-alignment: center; -fx-padding: 10;"/>
+
+                <!-- Register Button -->
+                <Button text="Create Account"
+                        styleClass="primary-button"
+                        onAction="#handleRegister"
+                        maxWidth="Infinity"
+                        defaultButton="true"
+                        minHeight="45">
+                    <VBox.margin>
+                        <Insets top="8"/>
+                    </VBox.margin>
+                </Button>
+
+                <!-- Terms and Conditions -->
+                <Label text="By creating an account, you agree to our Terms of Service"
+                       wrapText="true"
+                       textAlignment="CENTER"
+                       style="-fx-text-fill: rgba(255,255,255,0.4); -fx-font-size: 10px;"
+                       alignment="CENTER"/>
+            </VBox>
+
+            <Separator prefWidth="250"/>
+
+            <!-- Back to Login -->
+            <HBox alignment="CENTER" spacing="8">
+                <Label text="Already have an account?"
+                       style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 12px;"/>
+                <Button text="Sign In"
+                        styleClass="secondary-button"
+                        onAction="#handleBackToLogin"
+                        style="-fx-padding: 5 15; -fx-font-size: 12px;"/>
+            </HBox>
+
+        </VBox>
+
+        <!-- Footer -->
+        <HBox alignment="CENTER" spacing="15">
+            <VBox.margin>
+                <Insets top="20"/>
+            </VBox.margin>
+            <Label text="🔒 Secure"
+                   style="-fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 10px;"/>
+            <Label text="•"
+                   style="-fx-text-fill: rgba(255,255,255,0.3); -fx-font-size: 10px;"/>
+            <Label text="💬 Real-time"
+                   style="-fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 10px;"/>
+            <Label text="•"
+                   style="-fx-text-fill: rgba(255,255,255,0.3); -fx-font-size: 10px;"/>
+            <Label text="🚀 Fast"
+                   style="-fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 10px;"/>
+        </HBox>
+    </VBox>
+
+</StackPane>
