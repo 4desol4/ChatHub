@@ -11,28 +11,43 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import com.chatapp.util.ServerConfig;
 
 import java.io.IOException;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 public class LoginController {
 
-    @FXML private VBox loginForm;
-    @FXML private VBox registrationForm;
-    @FXML private TextField usernameField;
-    @FXML private PasswordField passwordField;
-    @FXML private TextField regUsernameField;
-    @FXML private TextField regEmailField;
-    @FXML private PasswordField regPasswordField;
-    @FXML private PasswordField regConfirmPasswordField;
-    @FXML private Label errorLabel;
-    @FXML private Label regErrorLabel;
-    @FXML private Label toggleLabel;
-    @FXML private Button toggleButton;
+    @FXML
+    private VBox loginForm;
+    @FXML
+    private VBox registrationForm;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private TextField regUsernameField;
+    @FXML
+    private TextField regEmailField;
+    @FXML
+    private PasswordField regPasswordField;
+    @FXML
+    private PasswordField regConfirmPasswordField;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Label regErrorLabel;
+    @FXML
+    private Label toggleLabel;
+    @FXML
+    private Button toggleButton;
 
     private ChatClient chatClient;
     private boolean isLoginMode = true;
-    private static final String SERVER_HOST = "localhost";
-    private static final int SERVER_PORT = 5000;
+    private final String SERVER_HOST = ServerConfig.getServerHost();
+    private final int SERVER_PORT = ServerConfig.getServerPort();
 
     @FXML
     public void initialize() {
@@ -44,6 +59,7 @@ public class LoginController {
         // Play entrance animation
         playEntranceAnimation();
     }
+
 
     @FXML
     private void handleLogin() {
@@ -85,8 +101,11 @@ public class LoginController {
                     if (loginSuccess) {
                         showSuccess("Login successful! Loading chat...", errorLabel);
 
-                        // Animate transition to chat
-                        fadeOutAndLoadChat();
+                        // ⚠️ ADD SMALL DELAY before loading chat
+                        // This ensures server has time to send initial data
+                        PauseTransition pause = new PauseTransition(Duration.millis(500));
+                        pause.setOnFinished(e -> fadeOutAndLoadChat());
+                        pause.play();
                     } else {
                         showError("Invalid username or password", errorLabel);
                         setInputsDisabled(false);
@@ -280,7 +299,7 @@ public class LoginController {
 
         stage.setScene(scene);
         stage.setTitle("ChatHub - " + chatClient.getUsername());
-        
+
         // Make fullscreen and center
         stage.setWidth(1400);
         stage.setHeight(800);

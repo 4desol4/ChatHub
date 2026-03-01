@@ -227,4 +227,36 @@ public class UserDAO {
         int index = Math.abs(username.hashCode()) % colors.length;
         return colors[index];
     }
+
+    public List<User> getAllUsersWithStatus() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT username, email, status, avatar_color FROM users ORDER BY status DESC, username ASC";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                User user = new User(
+                        rs.getString("username"),
+                        "", // Don't include password
+                        rs.getString("email")
+                );
+                user.setStatus(User.Status.valueOf(rs.getString("status")));
+
+                // Set avatar color from database
+                String avatarColor = rs.getString("avatar_color");
+                if (avatarColor != null && !avatarColor.isEmpty()) {
+                    // User class needs a setter for this, or we handle it in controller
+                }
+
+                users.add(user);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error fetching all users: " + e.getMessage());
+        }
+
+        return users;
+    }
 }

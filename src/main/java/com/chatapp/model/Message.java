@@ -29,6 +29,10 @@ public class Message implements Serializable {
         this.timestamp = LocalDateTime.now();
     }
 
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
     // Constructor for private messages
     public Message(String sender, String receiver, String content) {
         this(sender, content, MessageType.PRIVATE);
@@ -46,23 +50,57 @@ public class Message implements Serializable {
     }
 
     private String generateMessageId() {
-        return System.currentTimeMillis() + "_" + (int)(Math.random() * 10000);
+        return System.currentTimeMillis() + "_" + (int) (Math.random() * 10000);
     }
 
     // Getters and Setters
-    public String getMessageId() { return messageId; }
-    public String getSender() { return sender; }
-    public String getReceiver() { return receiver; }
-    public String getContent() { return content; }
-    public MessageType getType() { return type; }
-    public LocalDateTime getTimestamp() { return timestamp; }
-    public String getFileName() { return fileName; }
-    public byte[] getFileData() { return fileData; }
+    public String getMessageId() {
+        return messageId;
+    }
 
-    public void setSender(String sender) { this.sender = sender; }
-    public void setReceiver(String receiver) { this.receiver = receiver; }
-    public void setContent(String content) { this.content = content; }
-    public void setType(MessageType type) { this.type = type; }
+    public String getSender() {
+        return sender;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public MessageType getType() {
+        return type;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public byte[] getFileData() {
+        return fileData;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setType(MessageType type) {
+        this.type = type;
+    }
 
     public String getFormattedTimestamp() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");

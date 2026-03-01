@@ -54,15 +54,18 @@ public class UserManager {
     public synchronized void addOnlineUser(String username, ServerHandler handler) {
         onlineUsers.put(username, handler);
         userDAO.updateUserStatus(username, User.Status.ONLINE);
-        System.out.println("User online: " + username + " (Total online: " + onlineUsers.size() + ")");
+        System.out.println("🟢 User online: " + username + " (Total online: " + onlineUsers.size() + ")");
     }
 
     public synchronized void removeOnlineUser(String username) {
         onlineUsers.remove(username);
         userDAO.updateUserStatus(username, User.Status.OFFLINE);
-        System.out.println("User offline: " + username + " (Total online: " + onlineUsers.size() + ")");
+        System.out.println("🔴 User offline: " + username + " (Total online: " + onlineUsers.size() + ")");
     }
-
+    public void setUserOffline(String username) {
+        userDAO.updateUserStatus(username, User.Status.OFFLINE);
+        System.out.println("📴 Set user OFFLINE in database: " + username);
+    }
     public boolean isUserOnline(String username) {
         return onlineUsers.containsKey(username);
     }
@@ -79,7 +82,7 @@ public class UserManager {
         return userDAO.getAllUsers();
     }
 
-    // ✅ ADD THIS METHOD
+
     public Set<String> getAllOnlineUsernames() {
         return new HashSet<>(onlineUsers.keySet());
     }
@@ -97,7 +100,7 @@ public class UserManager {
     // Broadcast to all online users
     public void broadcastMessage(Message message, String excludeUsername) {
         // Save to history
-        messageDAO.saveToChatHistory(message);
+        //messageDAO.saveToChatHistory(message);
 
         // Broadcast to online users
         for (Map.Entry<String, ServerHandler> entry : onlineUsers.entrySet()) {
@@ -112,11 +115,15 @@ public class UserManager {
     }
 
     public void shutdown() {
-        // Update all online users to offline
+
+        System.out.println("📴 Setting all users to OFFLINE...");
+
         for (String username : onlineUsers.keySet()) {
             userDAO.updateUserStatus(username, User.Status.OFFLINE);
+            System.out.println("   📴 " + username + " → OFFLINE");
         }
+
         onlineUsers.clear();
-        System.out.println("UserManager shutdown complete");
+        System.out.println("✅ UserManager shutdown complete");
     }
 }

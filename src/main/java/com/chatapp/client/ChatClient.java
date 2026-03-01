@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javafx.application.Platform;
+
 public class ChatClient {
     private static ChatClient instance;
     private Socket socket;
@@ -29,7 +31,9 @@ public class ChatClient {
 
     public interface UserStatusListener {
         void onUserListUpdated(List<User> users);
+
         void onUserJoined(String username);
+
         void onUserLeft(String username);
     }
 
@@ -241,17 +245,46 @@ public class ChatClient {
     }
 
     private void notifyMessageListeners(Message message) {
+        System.out.println("🔔 Notifying " + messageListeners.size() + " message listeners");
         List<MessageListener> snapshot = new ArrayList<>(messageListeners);
         for (MessageListener listener : snapshot) {
-            listener.onMessageReceived(message);
+            Platform.runLater(() -> {
+                try {
+                    listener.onMessageReceived(message);
+                    System.out.println("✅ Message listener notified successfully");
+                } catch (Exception e) {
+                    System.err.println("❌ Error in message listener: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            });
         }
     }
-
+    /**
+     * Request updated user list from server
+     */
+    public void requestUserList() {
+        try {
+            System.out.println("📤 Requesting user list from server...");
+            Message request = new Message(username, "REQUEST_USERS", Message.MessageType.SYSTEM);
+            NetworkUtil.sendMessage(out, request);
+            System.out.println("✅ User list request sent");
+        } catch (IOException e) {
+            System.err.println("❌ Failed to request user list: " + e.getMessage());
+        }
+    }
     private void notifyUserListUpdated(List<User> users) {
         System.out.println("🔔 Notifying " + userStatusListeners.size() + " listeners about user list update");
         List<UserStatusListener> snapshot = new ArrayList<>(userStatusListeners);
         for (UserStatusListener listener : snapshot) {
-            listener.onUserListUpdated(users);
+            Platform.runLater(() -> {
+                try {
+                    listener.onUserListUpdated(users);
+                    System.out.println("✅ User list listener notified successfully");
+                } catch (Exception e) {
+                    System.err.println("❌ Error in user list listener: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            });
         }
     }
 

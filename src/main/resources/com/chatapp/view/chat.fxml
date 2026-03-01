@@ -71,6 +71,14 @@
                 </VBox.margin>
             </ListView>
 
+            <!-- Online Users Count Label -->
+            <HBox style="-fx-padding: 8 15;" alignment="CENTER">
+                <Label fx:id="onlineUsersCountLabel"
+                       text="0 users online"
+                       styleClass="online-count"
+                       style="-fx-text-fill: #A0A0B8; -fx-font-size: 12px;"/>
+            </HBox>
+
             <!-- Logout Button -->
             <HBox style="-fx-padding: 12; -fx-border-color: rgba(255,255,255,0.08); -fx-border-width: 1 0 0 0;"
                   alignment="CENTER">
@@ -88,6 +96,7 @@
         <VBox spacing="0">
 
             <!-- Chat Header -->
+            <!-- Chat Header with Beautiful Delete Button -->
             <HBox styleClass="chat-header" alignment="CENTER_LEFT" spacing="15">
                 <StackPane fx:id="chatHeaderAvatar">
                     <Circle radius="25"
@@ -106,6 +115,19 @@
                 </VBox>
 
                 <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Delete Chat Button - Beautiful Icon -->
+                <Button styleClass="delete-button" onAction="#handleDeleteChatHistory">
+                    <graphic>
+                        <StackPane>
+                            <Circle radius="20" fill="rgba(255, 71, 87, 0.2)"/>
+                            <Label text="🗑️" style="-fx-font-size: 18px;"/>
+                        </StackPane>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="Delete Chat History"/>
+                    </tooltip>
+                </Button>
 
                 <!-- Typing Indicator -->
                 <HBox fx:id="typingIndicatorBox" spacing="5" alignment="CENTER"
@@ -138,22 +160,35 @@
 
             </ScrollPane>
 
-            <!-- Input Area -->
+            <!-- Input Area with Beautiful Icons -->
             <HBox styleClass="input-area" spacing="12" alignment="CENTER">
 
-                <!-- Emoji Button -->
-                <Button text="😊" styleClass="emoji-button" onMouseClicked="#handleEmojiPicker">
+                <!-- Emoji Button - Beautiful Circle Icon -->
+                <Button styleClass="emoji-button" onMouseClicked="#handleEmojiPicker">
+                    <graphic>
+                        <StackPane>
+                            <Circle radius="20" fill="rgba(255, 193, 7, 0.2)"/>
+                            <Label text="😊" style="-fx-font-size: 20px;"/>
+                        </StackPane>
+                    </graphic>
                     <tooltip>
-                        <Tooltip text="Emoji"/>
+                        <Tooltip text="Insert Emoji"/>
                     </tooltip>
                 </Button>
 
-                <!-- Attach File Button -->
-                <Button text="📎" styleClass="attach-button" onAction="#handleAttachFile">
+                <!-- Attach File Button - Beautiful Circle Icon -->
+                <Button styleClass="attach-button" onAction="#handleAttachFile">
+                    <graphic>
+                        <StackPane>
+                            <Circle radius="20" fill="rgba(0, 217, 165, 0.2)"/>
+                            <Label text="📎" style="-fx-font-size: 20px;"/>
+                        </StackPane>
+                    </graphic>
                     <tooltip>
                         <Tooltip text="Attach File"/>
                     </tooltip>
                 </Button>
+
                 <!-- Message Input -->
                 <TextArea fx:id="messageInput"
                           styleClass="message-input"
@@ -163,11 +198,17 @@
                           HBox.hgrow="ALWAYS"
                           onKeyPressed="#handleKeyPressed"/>
 
-                <!-- Send Button -->
-                <Button text="Send ✈"
-                        styleClass="send-button"
+                <!-- Send Button - Beautiful Gradient -->
+                <Button styleClass="send-button"
                         onAction="#handleSendMessage"
-                        defaultButton="true"/>
+                        defaultButton="true">
+                    <graphic>
+                        <HBox spacing="8" alignment="CENTER">
+                            <Label text="Send" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+                            <Label text="✈" style="-fx-font-size: 16px; -fx-text-fill: white;"/>
+                        </HBox>
+                    </graphic>
+                </Button>
             </HBox>
         </VBox>
     </center>

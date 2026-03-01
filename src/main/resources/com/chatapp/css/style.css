@@ -731,3 +731,278 @@
 .message-time {
   -fx-font-size: 10px;
 }
+/* Online user highlight */
+.list-cell:selected .user-online {
+    -fx-background-color: rgba(0, 217, 165, 0.1);
+}
+
+/* Offline user dim */
+.list-cell .user-offline {
+    -fx-opacity: 0.6;
+}
+
+/* Status badge */
+.status-badge {
+    -fx-background-radius: 10;
+    -fx-padding: 2 8;
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+}
+
+.status-online {
+    -fx-background-color: rgba(0, 217, 165, 0.2);
+    -fx-text-fill: #00D9A5;
+}
+
+.status-offline {
+    -fx-background-color: rgba(107, 107, 138, 0.2);
+    -fx-text-fill: #6B6B8A;
+}
+
+
+/* Base scrollbar style for both users list and chat */
+.user-list .scroll-bar:vertical,
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: 0 3 0 0;
+    -fx-pref-width: 9px;
+    -fx-opacity: 0.3;
+    -fx-transition: opacity 0.3s ease;
+}
+
+/* Show scrollbar on hover */
+.user-list:hover .scroll-bar:vertical,
+.scroll-pane:hover .scroll-bar:vertical {
+    -fx-opacity: 1;
+}
+
+/* Scrollbar track */
+.user-list .scroll-bar:vertical .track,
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+/* Scrollbar thumb (the draggable part) */
+.user-list .scroll-bar:vertical .thumb {
+    -fx-background-color: linear-gradient(to bottom, rgba(0, 217, 165, 0.5), rgba(0, 217, 165, 0.3));
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: linear-gradient(to bottom, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.3));
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+/* Hover effect */
+.user-list .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: linear-gradient(to bottom, rgba(0, 217, 165, 0.7), rgba(0, 217, 165, 0.5));
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: linear-gradient(to bottom, rgba(102, 126, 234, 0.7), rgba(118, 75, 162, 0.5));
+}
+
+/* Pressed effect */
+.user-list .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: rgba(0, 217, 165, 0.9);
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: rgba(102, 126, 234, 0.9);
+}
+
+/* Hide scrollbar buttons/arrows */
+.user-list .scroll-bar:vertical .increment-button,
+.user-list .scroll-bar:vertical .decrement-button,
+.scroll-pane .scroll-bar:vertical .increment-button,
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-padding: 0;
+    -fx-pref-height: 0;
+    -fx-opacity: 0;
+}
+
+.user-list .scroll-bar:vertical .increment-arrow,
+.user-list .scroll-bar:vertical .decrement-arrow,
+.scroll-pane .scroll-bar:vertical .increment-arrow,
+.scroll-pane .scroll-bar:vertical .decrement-arrow {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+/* Smooth scrolling background */
+.user-list,
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.user-list .viewport,
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Horizontal scrollbar (hide it) */
+.user-list .scroll-bar:horizontal,
+.scroll-pane .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+}
+
+
+/* Base Icon Button */
+.icon-button {
+    -fx-background-color: rgba(102, 126, 234, 0.2);
+    -fx-background-radius: 50%;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}
+
+.icon-button:hover {
+    -fx-background-color: rgba(102, 126, 234, 0.4);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.icon-button:pressed {
+    -fx-background-color: rgba(102, 126, 234, 0.6);
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+/* Emoji Button */
+.emoji-button {
+    -fx-background-color: rgba(255, 193, 7, 0.2);
+    -fx-background-radius: 50%;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+.emoji-button:hover {
+    -fx-background-color: rgba(255, 193, 7, 0.4);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.emoji-button:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+.emoji-button .label {
+    -fx-font-size: 20px;
+}
+
+/* Attach Button */
+.attach-button {
+    -fx-background-color: rgba(0, 217, 165, 0.2);
+    -fx-background-radius: 50%;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+.attach-button:hover {
+    -fx-background-color: rgba(0, 217, 165, 0.4);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.attach-button:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+.attach-button .label {
+    -fx-font-size: 20px;
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-background-color: rgba(255, 71, 87, 0.2);
+    -fx-background-radius: 50%;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+.delete-button:hover {
+    -fx-background-color: rgba(255, 71, 87, 0.4);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.delete-button:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+.delete-button .label {
+    -fx-font-size: 18px;
+}
+
+/* Send Button - Enhanced */
+.send-button {
+    -fx-background-color: linear-gradient(to right, #667eea, #764ba2);
+    -fx-background-radius: 25;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 12 24;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.4), 10, 0, 0, 4);
+}
+
+.send-button:hover {
+    -fx-background-color: linear-gradient(to right, #7c8ef5, #8b5bc2);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.send-button:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+.glass-context-menu {
+    -fx-background-color: rgba(30, 34, 48, 0.55);
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: rgba(255,255,255,0.18);
+    -fx-border-width: 1;
+    -fx-padding: 8;
+}
+.emoji-picker-button {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-radius: 10;
+    -fx-padding: 6;
+    -fx-font-size: 20px;
+    -fx-text-fill: rgb(255,255,255);
+    -fx-cursor: hand;
+}
+
+.emoji-picker-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.28);
+}
+
+.emoji-picker-button:pressed {
+    -fx-background-color: rgba(255, 255, 255, 0.4);
+}
+

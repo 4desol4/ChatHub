@@ -17,6 +17,8 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+import com.chatapp.util.ServerConfig;
+
 public class RegistrationController {
 
     @FXML
@@ -31,8 +33,8 @@ public class RegistrationController {
     private Label messageLabel;
 
     private ChatClient chatClient;
-    private static final String SERVER_HOST = "localhost";
-    private static final int SERVER_PORT = 5000;
+    private final String SERVER_HOST = ServerConfig.getServerHost();
+    private final int SERVER_PORT = ServerConfig.getServerPort();
 
     // Email validation pattern
     private static final Pattern EMAIL_PATTERN =
@@ -47,7 +49,7 @@ public class RegistrationController {
 
         // Add real-time validation feedback
         setupValidationListeners();
-        
+
         // Setup responsive layout
         setupResponsiveLayout();
     }

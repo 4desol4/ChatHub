@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.sql.*;
+
+import com.chatapp.database.DatabaseConfig;
 
 public class ChatServer {
     private static final int PORT = 5000;
@@ -20,14 +23,34 @@ public class ChatServer {
     private UserManager userManager;
 
     public ChatServer() {
+
         clientHandlers = new ArrayList<>();
         threadPool = Executors.newFixedThreadPool(MAX_CLIENTS);
         userManager = UserManager.getInstance();
         running = false;
     }
 
+    private void cleanupStaleUsers() {
+        System.out.println("🧹 Cleaning up stale user statuses...");
+
+        String sql = "UPDATE users SET status = 'OFFLINE' WHERE status = 'ONLINE'";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            int rowsAffected = stmt.executeUpdate(sql);
+            System.out.println("✅ Set " + rowsAffected + " users to OFFLINE");
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error cleaning up users: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public void start() {
         try {
+            cleanupStaleUsers();
+
             serverSocket = new ServerSocket(PORT);
             running = true;
 
@@ -98,7 +121,7 @@ public class ChatServer {
 
         // Add shutdown hook for graceful shutdown
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("\nShutdown signal received...");
+            System.out.println("\n⚠️ Shutdown signal received...");
             server.shutdown();
         }));
 

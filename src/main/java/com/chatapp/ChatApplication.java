@@ -24,10 +24,7 @@ public class ChatApplication extends Application {
         primaryStage.centerOnScreen();
 
         primaryStage.setMinWidth(400);
-        primaryStage.setMinHeight(550);
-
-
-
+        primaryStage.setMinHeight(500);
         primaryStage.show();
     }
 
@@ -35,7 +32,6 @@ public class ChatApplication extends Application {
 
     @Override
     public void stop() {
-
         System.out.println("Application closing...");
     }
 

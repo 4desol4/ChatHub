@@ -3,6 +3,7 @@ package com.chatapp.server;
 import com.chatapp.model.Message;
 import com.chatapp.model.User;
 import com.chatapp.util.NetworkUtil;
+import com.chatapp.database.MessageDAO;
 
 import java.io.*;
 import java.net.Socket;
@@ -15,6 +16,7 @@ public class ServerHandler implements Runnable {
     private String username;
     private final UserManager userManager;
     private volatile boolean running;
+    private final MessageDAO messageDAO = new MessageDAO();
 
     public ServerHandler(Socket socket) {
         this.socket = socket;
@@ -25,7 +27,7 @@ public class ServerHandler implements Runnable {
     @Override
     public void run() {
         try {
-            // Initialize streams - INPUT FIRST to prevent deadlock
+            // Initialize streams
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
@@ -99,7 +101,6 @@ public class ServerHandler implements Runnable {
                 System.out.println("User authenticated: " + username);
 
                 sendOnlineUsersList();
-
                 broadcastUserListToAll();
 
                 return true;
@@ -119,24 +120,35 @@ public class ServerHandler implements Runnable {
                 " [" + message.getType() + "]: " +
                 (message.getContent() != null ? message.getContent() : message.getFileName()));
 
+        // Handle user list request
+        if (message.getType() == Message.MessageType.SYSTEM &&
+                "REQUEST_USERS".equals(message.getContent())) {
+            System.out.println("📋 " + username + " requested user list");
+            sendOnlineUsersList();
+            return;
+        }
+
         switch (message.getType()) {
             case TEXT:
-                // Broadcast to all users
-                userManager.broadcastMessage(message, username);
+
+                if (message.getReceiver() != null && !message.getReceiver().isEmpty()) {
+                    System.out.println("📨 Converting TEXT to PRIVATE for receiver: " + message.getReceiver());
+                    handlePrivateMessage(message);
+                } else {
+                    // Normal broadcast to all users
+                    userManager.broadcastMessage(message, username);
+                }
                 break;
 
             case PRIVATE:
-                // Send to specific user
                 handlePrivateMessage(message);
                 break;
 
             case FILE:
-                // Handle file transfer
                 handleFileTransfer(message);
                 break;
 
             case TYPING:
-                // Broadcast typing indicator
                 userManager.broadcastMessage(message, username);
                 break;
 
@@ -147,17 +159,23 @@ public class ServerHandler implements Runnable {
 
     private void handlePrivateMessage(Message message) throws IOException {
         String receiver = message.getReceiver();
+
+
+        messageDAO.saveToChatHistory(message);
+        System.out.println("💾 Saved private message to chat history");
+
+        // Check if user is messaging themselves
+        if (receiver.equals(username)) {
+            System.out.println("💭 Self-message from " + username + " - sending back to sender only");
+            sendUserMessage(message);
+            return;
+        }
+
         ServerHandler receiverHandler = userManager.getOnlineUserHandler(receiver);
 
         if (receiverHandler != null) {
             // User is online, send immediately
             receiverHandler.sendUserMessage(message);
-
-            // Send confirmation to sender
-            Message confirmation = new Message("SYSTEM",
-                    "Private message delivered to " + receiver,
-                    Message.MessageType.SYSTEM);
-            sendUserMessage(confirmation);
         } else {
             // User is offline, queue message
             userManager.addOfflineMessage(receiver, message);
@@ -173,7 +191,7 @@ public class ServerHandler implements Runnable {
     private void handleFileTransfer(Message message) throws IOException {
         String receiver = message.getReceiver();
 
-        if (receiver == null) {
+        if (receiver == null || receiver.isEmpty()) {
             // Broadcast file to all users
             userManager.broadcastMessage(message, username);
         } else {
@@ -197,16 +215,18 @@ public class ServerHandler implements Runnable {
         }
     }
 
-
     private void sendOnlineUsersList() throws IOException {
-        List<User> onlineUsers = userManager.getOnlineUsers();
+
+        List<User> allUsers = userManager.getAllUsers();
+
         synchronized (out) {
             out.writeObject("USERS_LIST");
-            out.writeObject(onlineUsers);
+            out.writeObject(allUsers);
             out.flush();
         }
-        System.out.println("Sent user list to " + username + " (" + onlineUsers.size() + " users)");
+        System.out.println("Sent user list to " + username + " (" + allUsers.size() + " users)");
     }
+
 
     private void sendUserMessage(Message message) throws IOException {
         synchronized (out) {
@@ -216,31 +236,31 @@ public class ServerHandler implements Runnable {
         }
     }
 
-
     private void broadcastUserJoined() {
         Message joinMessage = new Message(username,
                 username + " has joined the chat",
                 Message.MessageType.USER_JOIN);
         userManager.broadcastMessage(joinMessage, username);
-        
 
         broadcastUserListToAll();
     }
-    private void broadcastUserListToAll() {
-        List<User> onlineUsers = userManager.getOnlineUsers();
 
-        // Get all online handlers including this one
+    private void broadcastUserListToAll() {
+        List<User> allUsers = userManager.getAllUsers();
+
+        // Get all online handlers
         for (String user : userManager.getAllOnlineUsernames()) {
             ServerHandler handler = userManager.getOnlineUserHandler(user);
             if (handler != null) {
                 try {
-                    handler.sendUserListUpdate(onlineUsers);
+                    handler.sendUserListUpdate(allUsers);
                 } catch (IOException e) {
                     System.err.println("Failed to send user list to: " + user);
                 }
             }
         }
     }
+
     private void sendUserListUpdate(List<User> users) throws IOException {
         synchronized (out) {
             out.writeObject("USERS_LIST");
@@ -248,6 +268,7 @@ public class ServerHandler implements Runnable {
             out.flush();
         }
     }
+
     private void broadcastUserLeft() {
         Message leaveMessage = new Message(username,
                 username + " has left the chat",
@@ -267,10 +288,16 @@ public class ServerHandler implements Runnable {
         running = false;
 
         if (username != null) {
-            userManager.removeOnlineUser(username);
-            broadcastUserLeft();
+            userManager.setUserOffline(username);
 
+            // Remove from online users map
+            userManager.removeOnlineUser(username);
+
+            // Notify others
+            broadcastUserLeft();
             broadcastUserListToAll();
+
+            System.out.println("✅ User " + username + " set to OFFLINE in database");
         }
 
         try {
