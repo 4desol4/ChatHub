@@ -20,11 +20,17 @@ A modern desktop chat application built with **Java, JavaFX, and MySQL**. Real-t
 
 ## 📸 Screenshots
 
-```markdown
-| Login Screen                    | Chat Interface                | Registration Screen                       |
-| ------------------------------- | ----------------------------- | ----------------------------------------- |
-| ![Login](screenshots/login.png) | ![Chat](screenshots/chat.png) | ![Registration](screenshots/register.png) |
-```
+ Login Screen    
+ -----------------------------
+ ![Login](screenshots/login.png)
+ 
+ Chat Interface     
+ -----------------------------
+ ![Chat](screenshots/chat.png)
+ 
+ Registration Screen                       
+ ----------------------------------------- 
+ ![Registration](screenshots/register.png) 
 
 ---
 
@@ -339,18 +345,13 @@ ChatHub/
 
 **Never expose credentials:**
 
-✅ **Correct:**
 
 ```bash
 # In .env file
 DB_PASSWORD=your_secure_password
 ```
 
-❌ **Wrong:**
 
-```java
-
-```
 
 ### Strong Passwords
 
@@ -466,9 +467,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📞 Support
 
-- 📧 Email: your.email@example.com
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/ChatHub/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/ChatHub/discussions)
+- 📧 Email: adeleyeshola0@gmail.com 
+- 🐛 Issues: [GitHub Issues](https://github.com/4desol4/ChatHub/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/4desol4/ChatHub/discussions)
 
 ---
 
